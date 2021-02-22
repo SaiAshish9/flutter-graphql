@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:graphql/client.dart';
 
 void main() {
@@ -9,6 +10,10 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+    ));
+
     final _httpLink = HttpLink(
       'https://f409900f50ac.ngrok.io/graphql',
     );
@@ -38,27 +43,34 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-            child: Container(
-          child: RaisedButton(
-            child: Text('hi'),
-            color: Colors.black,
-            textColor: Colors.white,
-            onPressed: () async {
-              final QueryResult result = await client.query(options);
+      home: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.dark,
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: Center(
+              child: Container(
+            child: RaisedButton(
+              child: Text('hi'),
+              color: Colors.black,
+              textColor: Colors.white,
+              onPressed: () async {
+                final QueryResult result = await client.query(options);
 
-              if (result.hasException) {
-                print(result.exception.toString());
-              }
+                if (result.hasException) {
+                  print(result.exception.toString());
+                }
 
-              final List<dynamic> repositories =
-                  result.data['feed'] as List<dynamic>;
+                final List<dynamic> repositories =
+                    result.data['feed'] as List<dynamic>;
 
-              print(repositories);
-            },
-          ),
-        )),
+                print(repositories);
+              },
+            ),
+          )),
+        ),
       ),
     );
   }
