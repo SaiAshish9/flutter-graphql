@@ -2,9 +2,9 @@
 <resources>
 
     <style name="Splash" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:statusBarColor">@color/primaryDark</item>
         <item name="android:windowBackground">
             @drawable/background
         </item>
-        <item name="android:statusBarColor">#f0f0f0</item>
     </style>
 </resources>

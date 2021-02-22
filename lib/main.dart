@@ -11,38 +11,41 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
-    ));
+        // statusBarColor: Color(0xFF024b7c),
+        statusBarColor: Colors.white));
 
-    final _httpLink = HttpLink(
-      'https://f409900f50ac.ngrok.io/graphql',
-    );
+    // final _httpLink = HttpLink(
+    //   'https://f409900f50ac.ngrok.io/graphql',
+    // );
 
-    final GraphQLClient client = GraphQLClient(
-      cache: GraphQLCache(),
-      link: _httpLink as Link,
-    );
+    // final GraphQLClient client = GraphQLClient(
+    //   cache: GraphQLCache(),
+    //   link: _httpLink as Link,
+    // );
 
-    const String fetchData = r'''
-      query {
-           feed {
-           id
-           title
-           content
-           published
-           author {
-             id
-             name
-             email
-          }
-        }
-      }
-    ''';
+    // const String fetchData = r'''
+    //   query {
+    //        feed {
+    //        id
+    //        title
+    //        content
+    //        published
+    //        author {
+    //          id
+    //          name
+    //          email
+    //       }
+    //     }
+    //   }
+    // ''';
 
-    final QueryOptions options = QueryOptions(document: gql(fetchData));
+    // final QueryOptions options = QueryOptions(document: gql(fetchData));
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: Color(0xFF024b7c),
+      ),
       home: AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.dark,
@@ -52,22 +55,25 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white,
           body: Center(
               child: Container(
-            child: RaisedButton(
-              child: Text('hi'),
-              color: Colors.black,
-              textColor: Colors.white,
-              onPressed: () async {
-                final QueryResult result = await client.query(options);
+            child: Visibility(
+              visible: false,
+              child: RaisedButton(
+                child: Text('hi'),
+                color: Colors.black,
+                textColor: Colors.white,
+                onPressed: () async {
+                  // final QueryResult result = await client.query(options);
 
-                if (result.hasException) {
-                  print(result.exception.toString());
-                }
+                  // if (result.hasException) {
+                  //   print(result.exception.toString());
+                  // }
 
-                final List<dynamic> repositories =
-                    result.data['feed'] as List<dynamic>;
+                  // final List<dynamic> repositories =
+                  //     result.data['feed'] as List<dynamic>;
 
-                print(repositories);
-              },
+                  // print(repositories);
+                },
+              ),
             ),
           )),
         ),
